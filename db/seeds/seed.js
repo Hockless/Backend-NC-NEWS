@@ -5,7 +5,6 @@ const {
 	createTopics,
 	createArticles,
 	createComments,
-	articleReference,
 } = require('../../utils/seed-formatting');
 
 const seed = (data) => {
@@ -63,7 +62,7 @@ const seed = (data) => {
 	    VALUES %L RETURNING *;`,
 				formattedUsers
 			);
-			console.log(result.rows);
+
 			return db.query(sql);
 		})
 		.then(() => {
@@ -96,9 +95,6 @@ const seed = (data) => {
 				formattedComments
 			);
 			return db.query(sql);
-		})
-		.then((res) => {
-			console.log(res.rows);
 		});
 };
 
