@@ -6,7 +6,7 @@ const app = require('../app');
 beforeEach(() => seed(testData));
 afterAll(() => db.end());
 
-describe('GET/ API', () => {
+describe('GET WELCOME MESSAGE', () => {
 	test('responds with message all ok', () => {
 		return request(app)
 			.get('/api')
@@ -37,48 +37,70 @@ describe('GET TOPICS', () => {
 });
 
 describe('GET ARTICLE ID', () => {
-	test('Responds with a list of article IDs', () => {
+	test('Responds with an article object with properties', () => {
 		return request(app)
-			.get('/api/article/:article_id')
+			.get('/api/article/1')
 			.expect(200)
 			.then((res) => {
-				expect(res.body.result).toHaveLength(12);
-				res.body.result.forEach((id) => {
-					expect(id).toEqual(
-						expect.objectContaining({
-							article_id: expect.any(Number),
-						})
-					);
+				expect(typeof res.body).toBe('object');
+
+				expect(res.body).toMatchObject({
+					article: {
+						article_id: 1,
+						title: 'Living in the shadow of a great man',
+						body: 'I find this existence challenging',
+						votes: 100,
+						topic: 'mitch',
+						author: 'butter_bridge',
+						created_at: '2020-07-09T20:11:00.000Z',
+						comment_count: '11',
+					},
 				});
 			});
 	});
 });
 
-describe('GET ARTICLES', () => {
-	test('Responds with a list of articles', () => {
+describe('DELETE COMMENT BY ID', () => {
+	test('Deletes a specified comment from the user', () => {
+		return request(app).delete('/api/comments/1').expect(204);
+	});
+});
+
+describe('POST COMMENT', () => {
+	test('Responds with the posted comment', () => {
+		return request(app).post('/api/articles/1/comments');
+	});
+});
+
+describe('GET API', () => {
+	test('Gets the API endpoint information', () => {
+		return request(app).get('/api/');
+	});
+});
+
+describe('PATCH ARTICLE', () => {
+	test('Responds with the updated article and vote count', () => {
+		const newObj = { inc_votes: 3 };
 		return request(app)
-			.get('/api/articles')
+			.patch('/api/articles/1')
+			.send(newObj)
 			.expect(200)
 			.then((res) => {
-				expect(res.body.result).toHaveLength(12);
-				res.body.result.forEach((articles) => {
-					expect(articles).toEqual(
-						expect.objectContaining({
-							article_id: expect.any(Number),
-							author: expect.any(String),
-							body: expect.any(String),
-							created_at: expect.any(String),
-							title: expect.any(String),
-							topic: expect.any(String),
-						})
-					);
+				expect(typeof res.body).toBe('object');
+				expect(res.body).toMatchObject({
+					article: {
+						article_id: 1,
+						title: 'Living in the shadow of a great man',
+						body: 'I find this existence challenging',
+						votes: 103,
+						topic: 'mitch',
+						author: 'butter_bridge',
+						created_at: expect.any(String),
+					},
 				});
 			});
 	});
 });
-// describe('', () => {
-// 	test('', () => {});
-// });
 
 // describe('', () => {
 // 	test('', () => {});
@@ -87,15 +109,4 @@ describe('GET ARTICLES', () => {
 // describe('', () => {
 // 	test('', () => {});
 // });
-
-// describe('', () => {
-// 	test('', () => {});
-// });
-
-// describe('', () => {
-// 	test('', () => {});
-// });
-
-// describe('', () => {
-// 	test('', () => {});
 // });
