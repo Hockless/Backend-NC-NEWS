@@ -130,18 +130,16 @@ describe('GET ARTICLE COMMENTS', () => {
 			.get('/api/articles/1/comments')
 			.expect(200)
 			.then((res) => {
-				expect(res.body.result).toHaveLength(3);
-				res.body.result.forEach((topic) => {
-					expect(topic).toEqual(
+				expect(res.body.comments).toHaveLength(11);
+				res.body.comments.forEach((comment) => {
+					expect(comment).toEqual(
 						expect.objectContaining({
-							comments: {
-								comment_id: expect.any(Number),
-								body: expect.any(String),
-								votes: expect.any(Number),
-								topic: expect.any(String),
-								author: expect.any(String),
-								created_at: expect.any(String),
-							},
+							article_id: expect.any(Number),
+							comment_id: expect.any(Number),
+							body: expect.any(String),
+							votes: expect.any(Number),
+							author: expect.any(String),
+							created_at: expect.any(String),
 						})
 					);
 				});

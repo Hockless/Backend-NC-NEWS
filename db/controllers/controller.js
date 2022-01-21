@@ -46,8 +46,8 @@ exports.getArticle = (req, res) => {
 };
 
 exports.getArticleComments = (req, res) => {
-	const { comment_id } = req.params;
-	selectArticleComments(comment_id).then((comments) => {
+	const { article_id } = req.params;
+	selectArticleComments(article_id).then((comments) => {
 		res.status(200).send({ comments });
 	});
 };

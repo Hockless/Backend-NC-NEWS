@@ -48,7 +48,6 @@ exports.selectArticle = (sort_by = 'created_at', order = 'DESC', topic) => {
 	// .catch((err) => console.log(err));
 };
 exports.selectArticleComments = (comment_id) => {
-	console.log(comment_id);
 	return db
 		.query(`SELECT * FROM comments WHERE article_id = $1;`, [comment_id])
 		.then((res) => {
