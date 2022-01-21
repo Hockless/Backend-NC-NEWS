@@ -102,11 +102,49 @@ describe('PATCH ARTICLE', () => {
 	});
 });
 
-// describe('', () => {
-// 	test('', () => {});
+// describe('GET ARTICLE OBJECT', () => {
+// 	test('Gets article object that uses several queries', () => {
+// 		return request(app)
+// 			.get('/api/articles')
+// 			.expect(200)
+// 			.then((res) => {
+// 				expect(typeof res.body).toBe('object');
+// 				expect(res.body).toMatchObject({
+// 					article: {
+// 						article_id: 1,
+// 						title: 'Living in the shadow of a great man',
+// 						body: 'I find this existence challenging',
+// 						votes: 103,
+// 						topic: 'mitch',
+// 						author: 'butter_bridge',
+// 						created_at: expect.any(String),
+// 					},
+// 				});
+// 			});
+// 	});
 // });
 
-// describe('', () => {
-// 	test('', () => {});
-// });
-// });
+describe('GET ARTICLE COMMENTS', () => {
+	test('Retrieves an array of comments for the given article id', () => {
+		return request(app)
+			.get('/api/articles/1/comments')
+			.expect(200)
+			.then((res) => {
+				expect(res.body.result).toHaveLength(3);
+				res.body.result.forEach((topic) => {
+					expect(topic).toEqual(
+						expect.objectContaining({
+							comments: {
+								comment_id: expect.any(Number),
+								body: expect.any(String),
+								votes: expect.any(Number),
+								topic: expect.any(String),
+								author: expect.any(String),
+								created_at: expect.any(String),
+							},
+						})
+					);
+				});
+			});
+	});
+});

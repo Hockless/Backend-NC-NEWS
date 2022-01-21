@@ -35,15 +35,20 @@ exports.patchArticleId = (req, res, next) => {
 };
 
 exports.getArticle = (req, res) => {
-	selectArticle().then((result) => {
-		res.status(200).send({ result });
-	});
+	const { sort_by, order, topic } = req.query;
+	selectArticle(sort_by, order, topic)
+		.then((article) => {
+			res.status(200).send({ article });
+		})
+		.catch((err) => {
+			console.log(err);
+		});
 };
 
 exports.getArticleComments = (req, res) => {
-	const { article_id } = req.params;
-	selectArticleComments(article_id).then((result) => {
-		res.status(200).send({ result });
+	const { comment_id } = req.params;
+	selectArticleComments(comment_id).then((comments) => {
+		res.status(200).send({ comments });
 	});
 };
 
