@@ -67,7 +67,7 @@ exports.postedArticleComments = (newComment) => {
 			author,
 		])
 		.then((res) => {
-			console.log(res.rows[0]);
+			return res.rows[0];
 		});
 };
 exports.deletedComment = (comment) => {

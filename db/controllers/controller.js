@@ -55,7 +55,12 @@ exports.getArticleComments = (req, res) => {
 exports.postArticleComments = (req, res) => {
 	const newComment = req.body;
 	postedArticleComments(newComment).then((comment) => {
-		res.status(201).send({ comment });
+		res
+			.status(201)
+			.send({
+				body: 'This is the worst article I have ever read',
+				author: 'big matt',
+			});
 	});
 };
 
