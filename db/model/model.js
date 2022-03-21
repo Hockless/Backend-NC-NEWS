@@ -58,17 +58,14 @@ exports.selectArticleComments = (comment_id) => {
 		});
 };
 
-exports.postedArticleComments = (newComment) => {
-	const { body, author } = newComment;
-	console.log(newComment);
-	return db
-		.query(`INSERT INTO comments (body, author) VALUES ($1, $2) RETURNING *;`, [
-			body,
-			author,
-		])
-		.then((res) => {
-			return res.rows[0];
-		});
+exports.insertComment = async ({ article_id, author, body }) => {
+	const comment = await db
+		.query(
+			'INSERT INTO comments (article_id, author, body) VALUES ($1, $2, $3) RETURNING *;',
+			[article_id, author, body]
+		)
+		.then((result) => result.rows[0]);
+	return comment;
 };
 exports.deletedComment = (comment) => {
 	return db.query('DELETE FROM comments WHERE comment_id = $1;', [comment]);

@@ -4,7 +4,7 @@ const {
 	patchedArticleId,
 	selectArticle,
 	selectArticleComments,
-	postedArticleComments,
+	insertComment,
 	deletedComment,
 	selectApi,
 } = require('../model/model');
@@ -52,16 +52,11 @@ exports.getArticleComments = (req, res) => {
 	});
 };
 
-exports.postArticleComments = (req, res) => {
-	const newComment = req.body;
-	postedArticleComments(newComment).then((comment) => {
-		res
-			.status(201)
-			.send({
-				body: 'This is the worst article I have ever read',
-				author: 'big matt',
-			});
-	});
+exports.postComment = async (req, res) => {
+	const { article_id } = req.params;
+	const { username: author, body } = req.body;
+	const comment = await insertComment({ article_id, author, body });
+	res.status(201).send({ comment });
 };
 
 exports.deleteComment = (req, res) => {

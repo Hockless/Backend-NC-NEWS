@@ -67,8 +67,22 @@ describe('DELETE COMMENT BY ID', () => {
 });
 
 describe('POST COMMENT', () => {
-	test('Responds with the posted comment', () => {
-		return request(app).post('/api/articles/1/comments');
+	it('POST status:201, returns new comment when passed a valid comment', async () => {
+		const commentToPost = { body: 'new comment', username: 'rogersop' };
+		const { body } = await request(app)
+			.post('/api/articles/1/comments')
+			.send(commentToPost)
+			.expect(201);
+		expect(body.comment).toHaveProperty('article_id');
+		expect(body.comment).toHaveProperty('author');
+		expect(body.comment).toHaveProperty('body');
+		expect(body.comment).toHaveProperty('comment_id');
+		expect(body.comment).toHaveProperty('created_at');
+
+		expect(body.comment.body).toBe(commentToPost.body);
+		expect(body.comment.author).toBe(commentToPost.username);
+		expect(body.comment.votes).toBe(0);
+		expect(body.comment.article_id).toBe(1);
 	});
 });
 
