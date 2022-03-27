@@ -38,6 +38,14 @@ npm t
 
 https://nc-news-server-jim.herokuapp.com
 
+## Frontend Repository 
+
+https://github.com/Hockless/NC-News_Frontend
+
+## Live Website
+
+https://nc-news-hockless.netlify.app/
+
 
 ## Notes
 Please make sure to update Node.js to at least version 14.18.0  and Postgres to at least version 14.1.
