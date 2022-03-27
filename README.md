@@ -34,9 +34,10 @@ To perform a test, use the following command:
 ```
 npm t
 ```
-## Live version
+## Live API
 
 https://nc-news-server-jim.herokuapp.com
+
 
 ## Notes
 Please make sure to update Node.js to at least version 14.18.0  and Postgres to at least version 14.1.
